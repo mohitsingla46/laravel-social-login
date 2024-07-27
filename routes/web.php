@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [SocialLoginController::class, 'index']);
+Route::get('/', [SocialLoginController::class, 'index'])->name('login');
 Route::get('/github/redirect', [SocialLoginController::class, 'github_login']);
 Route::get('/github/callback', [SocialLoginController::class, 'github_redirect']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard']);
+    Route::get('logout', [SocialLoginController::class, 'logout']);
 });

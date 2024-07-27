@@ -19,9 +19,9 @@ class UserRepository
             'provider_id' => $user->getId(),
             'provider'    => $provider,
         ], [
-            'name'            => $user->getName(),
+            'name'            => $user->getName() ?? '',
             'email'           => $user->getEmail(),
-            'image'           => $user->getAvatar(),
+            'image'           => $user->getAvatar() ?? '',
             'provider_id'     => $user->getId(),
             'provider'        => $provider,
             'provider_object' => json_encode($user),

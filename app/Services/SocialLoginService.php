@@ -20,4 +20,9 @@ class SocialLoginService
         $userAdded = $this->userRepository->createUser($user, $provider);
         Auth::login($userAdded);
     }
+
+    public function logout()
+    {
+        Auth::logout();
+    }
 }

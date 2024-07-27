@@ -20,12 +20,12 @@ class SocialLoginController extends Controller
         return view('index');
     }
 
-    public function github_login(Request $request)
+    public function github_login()
     {
         return Socialite::driver('github')->redirect();
     }
 
-    public function github_redirect(Request $request)
+    public function github_redirect()
     {
         $user = Socialite::driver('github')->user();
         if ($user) {
@@ -34,5 +34,11 @@ class SocialLoginController extends Controller
         } else {
             return redirect('/');
         }
+    }
+
+    public function logout()
+    {
+        $this->socialService->logout();
+        return redirect('/');
     }
 }
