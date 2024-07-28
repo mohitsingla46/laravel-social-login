@@ -25,4 +25,11 @@ class SocialLoginService
     {
         Auth::logout();
     }
+
+    public function SaveFacebookUser($user)
+    {
+        $provider = 'Facebook';
+        $userAdded = $this->userRepository->createUser($user, $provider);
+        Auth::login($userAdded);
+    }
 }

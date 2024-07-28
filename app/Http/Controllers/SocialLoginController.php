@@ -41,4 +41,20 @@ class SocialLoginController extends Controller
         $this->socialService->logout();
         return redirect('/');
     }
+
+    public function facebook_login()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function facebook_redirect()
+    {
+        $user = Socialite::driver('facebook')->user();
+        if ($user) {
+            $this->socialService->SaveFacebookUser($user);
+            return redirect('dashboard');
+        } else {
+            return redirect('/');
+        }
+    }
 }

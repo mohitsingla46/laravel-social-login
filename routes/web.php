@@ -19,6 +19,9 @@ Route::get('/', [SocialLoginController::class, 'index'])->name('login');
 Route::get('/github/redirect', [SocialLoginController::class, 'github_login']);
 Route::get('/github/callback', [SocialLoginController::class, 'github_redirect']);
 
+Route::get('/facebook/redirect', [SocialLoginController::class, 'facebook_login']);
+Route::get('/facebook/callback', [SocialLoginController::class, 'facebook_redirect']);
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard']);
     Route::get('logout', [SocialLoginController::class, 'logout']);
