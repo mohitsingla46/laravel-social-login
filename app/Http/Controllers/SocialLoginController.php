@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\SocialLoginService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialLoginController extends Controller
@@ -17,7 +17,12 @@ class SocialLoginController extends Controller
 
     public function index()
     {
-        return view('index');
+        if(Auth::user()){
+            return redirect('dashboard');
+        }
+        else{
+            return view('index');
+        }
     }
 
     public function github_login()
@@ -27,9 +32,68 @@ class SocialLoginController extends Controller
 
     public function github_redirect()
     {
-        $user = Socialite::driver('github')->user();
-        if ($user) {
-            $this->socialService->SaveGitHubUser($user);
+        $result = $this->socialService->redirect('github');
+        if ($result) {
+            return redirect('dashboard');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function facebook_login()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function facebook_redirect()
+    {
+        $result = $this->socialService->redirect('facebook');
+        if ($result) {
+            return redirect('dashboard');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function google_login()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function google_redirect()
+    {
+        $result = $this->socialService->redirect('google');
+        if ($result) {
+            return redirect('dashboard');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function linkedin_login()
+    {
+        return Socialite::driver('linkedin')->redirect();
+    }
+
+    public function linkedin_redirect()
+    {
+        $result = $this->socialService->redirect('linkedin');
+        if ($result) {
+            return redirect('dashboard');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function x_login()
+    {
+        return Socialite::driver('twitter')->redirect();
+    }
+
+    public function x_redirect()
+    {
+        $result = $this->socialService->redirect('twitter');
+        if ($result) {
             return redirect('dashboard');
         } else {
             return redirect('/');
@@ -40,21 +104,5 @@ class SocialLoginController extends Controller
     {
         $this->socialService->logout();
         return redirect('/');
-    }
-
-    public function facebook_login()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-
-    public function facebook_redirect()
-    {
-        $user = Socialite::driver('facebook')->user();
-        if ($user) {
-            $this->socialService->SaveFacebookUser($user);
-            return redirect('dashboard');
-        } else {
-            return redirect('/');
-        }
     }
 }

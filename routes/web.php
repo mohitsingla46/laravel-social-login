@@ -22,6 +22,15 @@ Route::get('/github/callback', [SocialLoginController::class, 'github_redirect']
 Route::get('/facebook/redirect', [SocialLoginController::class, 'facebook_login']);
 Route::get('/facebook/callback', [SocialLoginController::class, 'facebook_redirect']);
 
+Route::get('/google/redirect', [SocialLoginController::class, 'google_login']);
+Route::get('/google/callback', [SocialLoginController::class, 'google_redirect']);
+
+Route::get('/linkedin/redirect', [SocialLoginController::class, 'linkedin_login']);
+Route::get('/linkedin/callback', [SocialLoginController::class, 'linkedin_redirect']);
+
+Route::get('/x/redirect', [SocialLoginController::class, 'x_login']);
+Route::get('/x/callback', [SocialLoginController::class, 'x_redirect']);
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard']);
     Route::get('logout', [SocialLoginController::class, 'logout']);

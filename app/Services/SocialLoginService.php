@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialLoginService
 {
@@ -14,9 +16,23 @@ class SocialLoginService
         $this->userRepository = $userRepository;
     }
 
-    public function SaveGitHubUser($user)
+    public function redirect($type)
     {
-        $provider = 'GitHub';
+        try {
+            $user = Socialite::driver($type)->user();
+            if ($user) {
+                $this->saveUser($user, $type);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function saveUser($user, $provider)
+    {
         $userAdded = $this->userRepository->createUser($user, $provider);
         Auth::login($userAdded);
     }
@@ -24,12 +40,5 @@ class SocialLoginService
     public function logout()
     {
         Auth::logout();
-    }
-
-    public function SaveFacebookUser($user)
-    {
-        $provider = 'Facebook';
-        $userAdded = $this->userRepository->createUser($user, $provider);
-        Auth::login($userAdded);
     }
 }
